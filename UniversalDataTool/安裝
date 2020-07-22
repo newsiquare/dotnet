@@ -4,25 +4,43 @@ https://hsiangfeng.github.io/nodejs/20190626/1317979814/
 https://www.itread01.com/article/1526522763.html
 http://kennytu.github.io/blog/2015/12/09/npm-weird-issue/
 
+
 清空後再安裝rm 
 rm -rf node_modules/                             //若失敗，就手動刪
 npm cache clean
 npm install
 
-若出現下述，代表有些版本過低or過高
-@angular/common@2.0.1, required by @angular/router@3.0.1
-npm ERR! peer dep missing: @angular/core@2.0.1, required by @angular/router@3.0.1
-npm ERR! peer dep missing: @angular/platform-browser@2.0.1, required by @angular/router@3.0.1
 
-package.json中，版本号如下：
-"@angular/core": "2.0.1" ====> 安装指定版本
-"@angular/core": "^2.0.1"====> 安装该版本以及比该版本更新的版本， 如： 2.0.1 , 2.0.2, 2.1.0, 2.7.0 但是，3开头的不可以
-"@angular/core": "~2.0.1"====> 只能安装 2.0.1， 2.0.2， 。。。。 2.0.9 但是, 2.1.0不可以
-"@angular/core": ">=2.0.1<=3.0.0"
+  <參考>package.json中，版本号如下：
+  "@angular/core": "2.0.1" ====> 安装指定版本
+  "@angular/core": "^2.0.1"====> 安装该版本以及比该版本更新的版本， 如： 2.0.1 , 2.0.2, 2.1.0, 2.7.0 但是，3开头的不可以
+  "@angular/core": "~2.0.1"====> 只能安装 2.0.1， 2.0.2， 。。。。 2.0.9 但是, 2.1.0不可以
+  "@angular/core": ">=2.0.1<=3.0.0"
+
+
+npm list --depth 0 出現
+ng2-starter-webpack@0.0.1 E:\Project_Dev\Angularjs2\ng2-starter-webpack
++-- @angular/common@2.0.1
++-- @angular/compiler@2.0.1
++-- @angular/platform-browser@2.0.1
++-- @angular/platform-browser-dynamic@2.0.1
++-- @angular/router@3.0.1
++-- @angular/upgrade@2.0.1
++-- typescript@2.0.10
++-- typings@1.5.0
++-- webpack@1.13.3
++-- webpack-dev-server@1.16.2
+`-- UNMET PEER DEPENDENCY zone.js@0.6.23
+npm ERR! peer dep missing: zone.js@^0.6.25, required by angular-in-memory-web-api@0.1.1
+
+
+其中的npm Error： angular-in-memory-web-api@0.1.1需要的zone.js版本是 0.6.25, 
+所以导致出现了错误，这就是常见的 peer dependencies 问题。只要修改为正确的版本后，就不会出现问题了。
 
 
 npm outdated                                     //看版本，不要猴急把package中的版本号都替换为最新的，要考虑依赖的问题
 npm view @angular/core@2.2.0 peerDependencies    //看依賴，查詢套件之間的相依
+
 
 運用上述逐一修理後，再確認
 npm list --depth 0
